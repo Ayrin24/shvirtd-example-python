@@ -1,0 +1,33 @@
+FROM python:3.12-slim AS builder
+
+# Устанавливаем зависимости сборки
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Создаём виртуальное окружение
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+COPY requirements.txt .
+
+# Устанавливаем зависимости в виртуальное окружение
+RUN pip install --no-cache-dir -r requirements.txt
+
+#````````Stage2````````
+FROM python:3.12-slim AS final
+
+# Копируем виртуальное окружение
+COPY --from=builder /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем исходный код проекта
+COPY . .
+
+# Открываем порт
+EXPOSE 5000
+
+# Команда запуска приложения
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
