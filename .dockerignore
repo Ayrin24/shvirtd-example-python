@@ -1,0 +1,25 @@
+# Системные файлы
+.git
+.gitignore
+.dockerignore
+README.md
+*.log
+
+# Виртуальное окружение (локальное)
+venv/
+env/
+.venv/
+
+# Кэш Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Переменные окружения
+.env
+.env.local
+
+# Файлы сборки и временные
+dist/
+build/
+*.egg-info/
