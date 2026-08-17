@@ -1,10 +1,5 @@
 FROM python:3.12-slim AS builder
 
-# Устанавливаем зависимости сборки
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
 # Создаём виртуальное окружение
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
